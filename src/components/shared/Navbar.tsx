@@ -12,6 +12,8 @@ import {
 import { Button } from "../ui/button";
 import { Heart, ShoppingBag, Menu } from "lucide-react";
 import { useState } from "react";
+import logo from "@/assets/logo/smartmeal.svg"
+
 
 const components = [
   {
@@ -32,8 +34,9 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full z-50 bg-white dark:bg-gray-900 shadow-md">
       <div className="container mx-auto flex items-center justify-around p-3 md:px-6">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold text-gray-900 dark:text-white">
-          SmartMeal
+        <Link href="/" className=" text-gray-900 dark:text-white">
+          <Image src={logo} width={150} height={60} alt="Smart Meal">
+          </Image>
         </Link>
 
         {/* Search Bar - Hidden on small screens */}
