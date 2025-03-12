@@ -1,6 +1,7 @@
 import BannerSection from "@/components/modules/home/Banner";
 import HeroSection from "@/components/modules/home/HeroSection";
 import MealWorkflow from "@/components/modules/home/MealWorkflow";
+import NewsletterSignup from "@/components/modules/home/NewsletterSignup/NewsletterSignup";
 
 
 const HomePage = () => {
@@ -9,7 +10,7 @@ const HomePage = () => {
         <BannerSection/>
      <HeroSection/>
      <MealWorkflow/>
-     
+     <NewsletterSignup/>
     </div>
   )
 }

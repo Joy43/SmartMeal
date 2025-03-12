@@ -33,8 +33,8 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white dark:bg-gray-900 shadow-md">
       <div className="container mx-auto flex items-center justify-around p-3 md:px-6">
-        {/* Logo */}
-        <Link href="/" className=" text-gray-900 dark:text-white">
+        {/*------- Logo ----------*/}
+        <Link href="/" className=" w-full h-20 text-gray-900 dark:text-white">
           <Image src={logo} width={150} height={60} alt="Smart Meal">
           </Image>
         </Link>
@@ -69,7 +69,7 @@ export default function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Shop</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid gap-3 p-4 md:w-[300px] lg:w-[300px] lg:grid-cols-[.75fr_1fr]">
+                  <ul className="grid gap-3 p-4 md:w-[300px] lg:w-[400px] lg:grid-cols-[.75fr_1fr]">
                     <li className="row-span-3">
                       <NavigationMenuLink asChild>
                         <a className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gray-100 dark:bg-gray-800 p-6 no-underline outline-none hover:bg-gray-200 dark:hover:bg-gray-700">
