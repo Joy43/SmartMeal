@@ -1,4 +1,5 @@
 import BannerSection from "@/components/modules/home/Banner";
+import Faqsection from "@/components/modules/home/Faqs";
 import HeroSection from "@/components/modules/home/HeroSection";
 import MealPlans from "@/components/modules/home/MealPlans";
 import MealWorkflow from "@/components/modules/home/MealWorkflow";
@@ -12,6 +13,7 @@ const HomePage = () => {
      <HeroSection/>
      <MealWorkflow/>
      <MealPlans/>
+     <Faqsection/>
      <NewsletterSignup/>
     </div>
   )

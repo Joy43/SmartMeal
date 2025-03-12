@@ -1,3 +1,4 @@
+'use server';
 import { cookies } from "next/headers";
 import {  FieldValues } from "react-hook-form";
 import { jwtDecode } from "jwt-decode";
@@ -58,6 +59,27 @@ export const getCurrentUser = async () => {
       return decodedData;
     } else {
       return null;
+    }
+  };
+
+  // google rechapture------
+
+  export const reCaptchaTokenVerification = async (token: string) => {
+    try {
+      const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          secret: process.env.NEXT_PUBLIC_RECAPTCHA_SERVER_KEY!,
+          response: token,
+        }),
+      });
+  
+      return res.json();
+    } catch (err: any) {
+      return Error(err);
     }
   };
 // ----------- Delete User -----------

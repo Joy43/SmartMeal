@@ -1,4 +1,14 @@
+import LoginForm from "@/components/modules/auth/login"
 
-'use server'
-export const register=async (userData:Fied)
+
+const page = () => {
+  return (
+    <div>
+      <LoginForm/>
+    </div>
+  )
+}
+
+export default page
+
 
