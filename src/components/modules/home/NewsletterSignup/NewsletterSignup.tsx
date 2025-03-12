@@ -34,7 +34,7 @@ const NewsletterSignup = () => {
           Subscribe
         </button>
       </form>
-
+{/* ----------------  */}
       <Image src="https://feedy.jwsuperthemes.com/wp-content/uploads/2023/09/footer_slalas.png" width={300} height={300} alt="SmartMeal">
 
       </Image>

@@ -1,17 +1,17 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-
-
+import {Galindo} from "next/font/google";
+const poppins = Galindo({ weight: "400", subsets: ["latin"] });
 const BannerSection = () => {
   return (
     <div
-      className=" container  mx-auto h-[500px]  border-2 border-white rounded-3xl mt-10"
+      className="container  mx-auto h-[500px] bg-[#FADA06] border-2
+       border-white rounded-3xl mt-10"
     >
       <div className="grid grid-cols-2 gap-4 items-center">
         <div className="pl-12">
-          <h1 className="text-4xl font-bold leading-normal">
-            Don&apos;t Miss Out on <br /> These Unbeatable Black <br /> Friday
-            Deals!
+          <h1 className={`text-2xl   font-bold leading-normal ${poppins.className}`}>
+            HEALTHY AND DELICIOUS MEALS  <br />DELEVERD STRAIGHT TO YOUR DOOR
           </h1>
           <p className="my-3">
             Save big this Black Friday with unbeatable deals on tech, home
