@@ -2,6 +2,16 @@
 
 import Link from "next/link";
 import Image from "next/image";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,9 +21,13 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Button } from "../ui/button";
-import { Heart, ShoppingBag, Menu } from "lucide-react";
+import { Heart, ShoppingBag, Menu, LogOut } from "lucide-react";
 import { useState } from "react";
 import logo from "@/assets/logo/smartmeal.svg";
+import { useUser } from "@/context/userContext";
+import { usePathname, useRouter } from "next/navigation";
+import { protectedRoutes } from "@/app/constants";
+import { logout } from "@/services/AuthService";
 
 const NAV_ITEMS = [
   { title: "Alert Dialog", href: "/docs/primitives/alert-dialog" },
@@ -22,7 +36,17 @@ const NAV_ITEMS = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, setIsLoading } = useUser();
+  const pathname = usePathname();
+  const router = useRouter();
 
+  const handleLogOut = () => {
+    logout();
+    setIsLoading(true);
+    if (protectedRoutes.some((route) => pathname.match(route))) {
+      router.push("/");
+    }
+  };
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white  shadow-sm">
       <div className="container mx-auto flex items-center justify-between p-4 md:px-6">
@@ -38,6 +62,43 @@ export default function Navbar() {
   />
 </Link>
 
+{user ? (
+            <>
+              <Link href="/create-shop">
+                <Button className="rounded-full">Create Shop</Button>
+              </Link>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <Avatar>
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>User</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                  <DropdownMenuItem>My Shop</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    className="bg-red-500 cursor-pointer"
+                    onClick={handleLogOut}
+                  >
+                    <LogOut />
+                    <span>Log Out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          ) : (
+            <Link href="/login">
+              <Button className="rounded-full" variant="outline">
+                Login
+              </Button>
+            </Link>
+          )}
         {/* Search Bar - Hidden on Small Screens */}
         <div className="hidden md:flex flex-grow max-w-md">
           <input

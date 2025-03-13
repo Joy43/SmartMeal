@@ -15,7 +15,7 @@ export const registerUser=async(userData:FieldValues)=>{
         const result = await res.json();
 
         if (result.success) {
-          (await cookies()).set("accessToken", result.data.accessToken);
+          (await cookies()).set("token", result.data.token);
           (await cookies()).set("refreshToken", result?.data?.refreshToken);
         }
     
@@ -38,7 +38,7 @@ export const registerUser=async(userData:FieldValues)=>{
           const result = await res.json();
       
           if (result?.success) {
-            (await cookies()).set("accessToken", result?.data?.accessToken);
+            (await cookies()).set("token", result?.data?.token);
             (await cookies()).set("refreshToken", result?.data?.refreshToken);
           }
       
@@ -51,11 +51,11 @@ export const registerUser=async(userData:FieldValues)=>{
     //   -----------current user--------
     
 export const getCurrentUser = async () => {
-    const accessToken = (await cookies()).get("accessToken")?.value;
+    const token = (await cookies()).get("token")?.value;
     let decodedData = null;
   
-    if (accessToken) {
-      decodedData = await jwtDecode(accessToken);
+    if (token) {
+      decodedData = await jwtDecode(token);
       return decodedData;
     } else {
       return null;
@@ -85,12 +85,12 @@ export const getCurrentUser = async () => {
 // ----------- Delete User -----------
 export const deleteUser = async (userId: string) => {
   try {
-    const accessToken = (await cookies()).get("accessToken")?.value;
+    const token = (await cookies()).get("token")?.value;
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user/${userId}`, {
       method: "DELETE",
       headers: {
-        "Authorization": `Bearer ${accessToken}`,
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -105,12 +105,12 @@ export const deleteUser = async (userId: string) => {
 // ----------- Update User -----------
 export const updateUser = async (userId: string, userData: FieldValues) => {
   try {
-    const accessToken = (await cookies()).get("accessToken")?.value;
+    const token = (await cookies()).get("token")?.value;
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user/${userId}`, {
       method: "PUT",
       headers: {
-        "Authorization": `Bearer ${accessToken}`,
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(userData),
@@ -122,4 +122,8 @@ export const updateUser = async (userId: string, userData: FieldValues) => {
     return Error(error);
   }
 };
+// ---------logout---------
+export const logout =async()=>{
+((await cookies()).delete("token"))
+}
   
