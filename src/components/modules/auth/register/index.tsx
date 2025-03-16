@@ -1,5 +1,6 @@
-'use client';
-import ReCAPTCHA from "react-google-recaptcha";
+"use client";
+
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,55 +13,36 @@ import {
 import { Input } from "@/components/ui/input";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
-
+import Logo from "@/assets/logo/smartmeal.svg";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginUser, reCaptchaTokenVerification } from "@/services/AuthService";
+
+import { registerUser } from "@/services/AuthService";
 import { toast } from "sonner";
-import { loginSchema } from "./loginValidation";
-import { useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-
+import { registrationSchema } from "./registerValidation";
 import { useUser } from "@/context/userContext";
+import Image from "next/image";
 
-export default function LoginForm() {
+
+export default function RegisterForm() {
   const form = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(registrationSchema),
   });
-
-  const [reCaptchaStatus, setReCaptchaStatus] = useState(false);
-  const serachParams=useSearchParams();
-
-  const router=useRouter();
-  const redirect=serachParams.get("redirect") ;
 
   const {
     formState: { isSubmitting },
   } = form;
-// --------------reCaptcha verification----------------
-  const handleReCaptcha = async (value: string | null) => {
-    try {
-      const res = await reCaptchaTokenVerification(value!);
-      if (res?.success) {
-        setReCaptchaStatus(true);
 
-      }
-    } catch (err: any) {
-      console.error(err);
-    }
-  };
+  const password = form.watch("password");
+  const passwordConfirm = form.watch("passwordConfirm");
+  //   console.log(password, passwordConfirm);
 const {setIsLoading}=useUser()
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      const res = await loginUser(data);
+      const res = await registerUser(data);
       setIsLoading(true);
       if (res?.success) {
         toast.success(res?.message);
-        if(redirect){
-          router.push(redirect)
-        }else{
-          router.push("/")
-        }
       } else {
         toast.error(res?.message);
       }
@@ -71,15 +53,33 @@ const {setIsLoading}=useUser()
 
   return (
     <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-md w-full p-5">
+        <Image className="text-center iteams-center justify-center" src={ Logo} width={100} height={150} alt="smart Meal">
+            
+            </Image>
       <div className="flex items-center space-x-4 ">
-     
+        
         <div>
-          <h1 className="text-xl font-semibold">Login</h1>
-          <p className="font-extralight text-sm text-gray-600">Welcome back!</p>
+          <h1 className="text-xl font-semibold">Register</h1>
+          <p className="font-extralight text-sm text-gray-600">
+            Join us today and start your journey!
+          </p>
         </div>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input {...field} value={field.value || ""} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
@@ -106,28 +106,38 @@ const {setIsLoading}=useUser()
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="passwordConfirm"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormControl>
+                  <Input type="password" {...field} value={field.value || ""} />
+                </FormControl>
 
-          <div className="flex mt-3 w-full">
-            <ReCAPTCHA
-              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT_KEY || ""}
-              onChange={handleReCaptcha}
-              className="mx-auto"
-            />
-          </div>
+                {passwordConfirm && password !== passwordConfirm ? (
+                  <FormMessage> Password does not match </FormMessage>
+                ) : (
+                  <FormMessage />
+                )}
+              </FormItem>
+            )}
+          />
 
           <Button
-            disabled={reCaptchaStatus ? false : true}
+            disabled={!!passwordConfirm && password !== passwordConfirm}
             type="submit"
             className="mt-5 w-full"
           >
-            {isSubmitting ? "Logging...." : "Login"}
+            {isSubmitting ? "Registering...." : "Register"}
           </Button>
         </form>
       </Form>
       <p className="text-sm text-gray-600 text-center my-3">
-        Do not have any account ?
-        <Link href="/register" className="text-primary">
-          Register
+        Already have an account ?
+        <Link href="/login" className="text-primary">
+          Login
         </Link>
       </p>
     </div>

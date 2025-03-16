@@ -1,11 +1,11 @@
+import RegisterForm from "@/components/modules/auth/register";
 
 const page = () => {
   return (
     <div className='h-screen w-screen flex justify-center items-center'>
-   
-      <h1></h1>
+   <RegisterForm/>
+    
     </div>
   )
 }
-
 export default page;

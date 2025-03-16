@@ -3,12 +3,12 @@ import LoginForm from "@/components/modules/auth/login"
 
 const page = () => {
   return (
-    <div  className="mx-auto items-center">
+    <div className="flex justify-center items-center min-h-screen">
       <LoginForm/>
     </div>
   )
 }
 
-export default page
+export default page;
 
 
